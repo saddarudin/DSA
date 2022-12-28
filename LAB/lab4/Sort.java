@@ -1,7 +1,7 @@
-package lab4;
+package LAB.lab4;
 
 public class Sort {
-    public int[] bubbleSort(int[] array){
+    public void bubbleSort(int[] array){
         for (int i=0;i<array.length-1;i++){
             for (int j=0;j<array.length-1-i;j++){
                 if(array[j]>array[j+1]){
@@ -11,22 +11,19 @@ public class Sort {
                 }
             }
         }
-        return array;
     }
-   public int[] selectionSort(int[] array){
+   public void selectionSort(int[] array){
         int minIndex;
         for (int i=0;i<array.length-1;i++){
             minIndex=i;
-            for (int j=i+1;j<array.length;j++){
+            for (int j=i+1;j<array.length;j++)
                 if(array[j]<array[minIndex])minIndex=j;
-                int temp=array[i];
-                array[i]=array[minIndex];
-                array[minIndex]=temp;
-            }
+            int temp=array[i];
+            array[i]=array[minIndex];
+            array[minIndex]=temp;
         }
-        return array;
    }
-   public int[] insertSort(int[] array){
+   public void insertSort(int[] array){
         int current;
         int j;
         for (int i=1;i<array.length;i++){
@@ -38,33 +35,31 @@ public class Sort {
             }
             array[j+1]=current;
         }
-        return array;
    }
-   int partition(int list[], int beg, int end){
-        int pivot=list[beg];
+   int partition(int[] array, int beg, int end){
+        int pivot=array[beg];
         int lm=beg+1;
         int rm=end;
         int temp;
         do {
-            while (list[rm]>pivot)rm--;
-            while (list[lm]<=pivot&&lm<end)lm++;
+            while (array[rm]>pivot)rm--;
+            while (array[lm]<=pivot&&lm<end)lm++;
             if(lm<rm){
-                temp=list[rm];
-                list[rm]=list[lm];
-                list[lm]=temp;
+                temp=array[rm];
+                array[rm]=array[lm];
+                array[lm]=temp;
             }
         }while (lm<rm);
-        list[beg]=list[rm];
-        list[rm]=pivot;
+        array[beg]=array[rm];
+        array[rm]=pivot;
         return rm;
    }
-   public int[] quickSort(int list[],int beg,int end){
+   public void quickSort(int[] array, int beg, int end){
         int p;
         if(beg<end){
-            p=partition(list,beg,end);
-            quickSort(list,beg,p-1);
-            quickSort(list,p+1,end);
+            p=partition(array,beg,end);
+            quickSort(array,beg,p-1);
+            quickSort(array,p+1,end);
         }
-        return list;
    }
 }
