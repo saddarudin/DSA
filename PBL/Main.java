@@ -24,7 +24,7 @@ public class Main {
                 String[] parts= scan.nextLine().split(",");
                 universities[i]=new University(parts[0],Integer.parseInt(parts[1]),
                         Integer.parseInt(parts[2]),Integer.parseInt(parts[3]),
-                        parts[4],parts[5],Integer.parseInt(parts[6]));
+                        parts[4],Integer.parseInt(parts[5]));
                 keys[i]=scanner.nextLine();
                 i++;
             }
@@ -47,53 +47,11 @@ public class Main {
     private static final MyLinkedStack stack1=new MyLinkedStack();
     //stack2 for storing data order by PakRanking
     private static final MyLinkedStack stack2=new MyLinkedStack();
-    private static final MyLinkedStack SindhUETs=new MyLinkedStack();
-    private static final MyLinkedStack PunjabUETs=new MyLinkedStack();
-    private static final MyLinkedStack BalochistanUETs=new MyLinkedStack();
-    private static final MyLinkedStack KPK_UETs=new MyLinkedStack();
-    private static final MyLinkedStack AJK_UETs=new MyLinkedStack();
-    private static final MyLinkedStack GilgitBiltistanUETs=new MyLinkedStack();
-    public void insertIntoStack(String orderBy){
-        for(int i=0;i<100;i++){
-            if(orderBy.equals("noOfPublications")) stack1.push(keys[i],universities[i],orderBy);
-            else if(orderBy.equals("PakRanking")){
-                stack2.push(keys[i],universities[i],orderBy);
-                switch (universities[i].getProvince()){
-                    case "Sindh"->SindhUETs.push(keys[i],universities[i],orderBy);
-                    case "Punjab"->PunjabUETs.push(keys[i],universities[i],orderBy);
-                    case "KPK"->KPK_UETs.push(keys[i],universities[i],orderBy);
-                    case "Balochistan"->BalochistanUETs.push(keys[i],universities[i],orderBy);
-                    case "AJK"->AJK_UETs.push(keys[i],universities[i],orderBy);
-                    case "Gilgit Biltistan"->GilgitBiltistanUETs.push(keys[i],universities[i],orderBy);
-                }
-            }
-        }
 
+    public void insertIntoStack(String orderBy){
+        if(orderBy.equals("noOfPublications")) stack1.push(keys,universities,orderBy);
+        else if(orderBy.equals("PakRanking")) stack2.push(keys,universities,orderBy);
     }
     public static MyLinkedStack getStack1(){return stack1;}
     public static MyLinkedStack getStack2(){return stack2;}
-
-    public static MyLinkedStack getBalochistanUETs() {
-        return BalochistanUETs;
-    }
-
-    public static MyLinkedStack getSindhUETs() {
-        return SindhUETs;
-    }
-
-    public static MyLinkedStack getAJK_UETs() {
-        return AJK_UETs;
-    }
-
-    public static MyLinkedStack getPunjabUETs() {
-        return PunjabUETs;
-    }
-
-    public static MyLinkedStack getKPK_UETs() {
-        return KPK_UETs;
-    }
-
-    public static MyLinkedStack getGilgitBiltistanUETs() {
-        return GilgitBiltistanUETs;
-    }
 }

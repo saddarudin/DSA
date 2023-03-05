@@ -1,15 +1,14 @@
 package PBL;
 public class University {
-    private String name,location,province;
+    private String name,location;
     private int worldRanking,asiaRanking,pakRanking,noOfPublications;
 
-    public University(String name,int worldRanking,int asiaRanking,int pakRanking,String location,String province,int noOfPublications){
+    public University(String name,int worldRanking,int asiaRanking,int pakRanking,String location,int noOfPublications){
         this.name=name;
         this.worldRanking=worldRanking;
         this.asiaRanking=asiaRanking;
         this.pakRanking=pakRanking;
         this.location=location;
-        this.province=province;
         this.noOfPublications=noOfPublications;
     }
 
@@ -23,10 +22,6 @@ public class University {
 
     public String getLocation() {
         return location;
-    }
-
-    public String getProvince() {
-        return province;
     }
 
     public int getWorldRanking() {
@@ -47,6 +42,6 @@ public class University {
 
     @Override
     public String toString() {
-        return worldRanking+"       "+asiaRanking+"     "+pakRanking+"      "+noOfPublications+"        "+location+"    "+province+"        "+name;
+        return worldRanking+"       "+asiaRanking+"     "+pakRanking+"      "+noOfPublications+"        "+location+"        "+name;
     }
 }

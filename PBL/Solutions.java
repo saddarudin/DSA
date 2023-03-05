@@ -30,8 +30,7 @@ public class Solutions {
         new Main();
         MyHashmap map=Main.getMap();
         Solutions s=new Solutions();
-        MyLinkedStack stack=Main.getKPK_UETs();
-
+        MyLinkedStack stack=Main.getStack2();
 //        System.out.println("WR          AR      PR      Pub         Loc             Name");
 //        for(String key:new Main().keys) System.out.println(s.search(map,key));
 //        University[] uet=s.bottomX(stack,10);
