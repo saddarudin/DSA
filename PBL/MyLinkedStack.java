@@ -35,67 +35,39 @@ class MyLinkedStack {
         if(isEmpty())throw new EmptyStackException();
         return top.data;
     }
-    public void push(String[] keys,University[] universities,String orderBy){
+    public void push(String key,University university,String orderBy){
+        Node temp=top;
         if(orderBy.equals("noOfPublications")){
-            //fetching map from Main class to get university of associated key
-            MyHashmap map=Main.getMap();
-            //loop to take one by one key and compare and store in stack
-            for(int i=0;i<100;i++){
-                String key=keys[i];
-                University university=universities[i];
-                if(isEmpty())top=new Node(key,top);
-                else {
-                    int j=university.getNoOfPublications();//j is no of publications for ith university
-                    university=(University) map.get(top.data);//get university from top of stack
-                    //no of publications of the university on the top of stack is less than that
-                    // of university whose key is to be inserted into stack
-                    if(university.getNoOfPublications()<j)  top=new Node(key,top);
-                    else {
-                        Node temp=top;
-                        while (temp.next!=null){
-                            university=(University) map.get(temp.next.data);
-                            int k=university.getNoOfPublications();//k is no of publications of the university taken from stack
-                            if(j>k)break;
-                            temp=temp.next;
-                        }
-                        Node n=new Node(key,null);
-                        n.next=temp.next;
-                        temp.next=n;
-                    }
-
+                if(isEmpty()||Main.getMap().get(top.data).getNoOfPublications()< university.getNoOfPublications()){
+                    top=new Node(key,top);
+                    size++;
+                    return;
                 }
-                size++;
 
-            }
+                while (temp.next!=null){
+                    if(Main.getMap().get(temp.next.data).getNoOfPublications()< university.getNoOfPublications())break;
+                    temp=temp.next;
+                }
+
         }
         else if(orderBy.equals("PakRanking")){
-            MyHashmap map=Main.getMap();
-            for(int i=0;i<100;i++){
-                String key=keys[i];
-                University university=universities[i];
-                if(isEmpty())top=new Node(key,top);
-                else {
-                    int j=university.getPakRanking();
-                    university=map.get(top.data);
-                    if(university.getPakRanking()>j)  top=new Node(key,top);
-                    else {
-                        Node temp=top;
-                        while (temp.next!=null){
-                            university=map.get(temp.next.data);
-                            int k=university.getPakRanking();
-                            if(j<k)break;
-                            temp=temp.next;
-                        }
-                        Node n=new Node(key,null);
-                        n.next=temp.next;
-                        temp.next=n;
-                    }
-
-                }
+            if(isEmpty()||Main.getMap().get(top.data).getPakRanking()> university.getPakRanking()){
+                top=new Node(key,top);
                 size++;
-
+                return;
             }
+
+            while (temp.next!=null){
+                if(Main.getMap().get(temp.next.data).getPakRanking()> university.getPakRanking())break;
+                temp=temp.next;
+            }
+
+
         }
+        Node n=new Node(key,null);
+        n.next=temp.next;
+        temp.next=n;
+        size++;
 
     }
     public void traverse(){
