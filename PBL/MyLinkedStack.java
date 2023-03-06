@@ -70,6 +70,12 @@ class MyLinkedStack {
         size++;
 
     }
+    public String get(int position){
+        if(position<1||position>size)throw new IllegalArgumentException("Incorrect index");
+        Node temp=top;
+        for(int j=1;j<position;j++)temp=temp.next;
+        return temp.data;
+    }
     public void traverse(){
         for(Node n=top;n!=null;n=n.next) System.out.println(Main.getMap().get(n.data));
     }
