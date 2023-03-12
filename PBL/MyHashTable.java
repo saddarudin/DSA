@@ -2,7 +2,7 @@
 package PBL;
 
 
-public class MyHashmap {
+public class MyHashTable {
     private static class Node{
         String key;
         University value;
@@ -10,10 +10,10 @@ public class MyHashmap {
     }//Node class to store key value pair
     Node[] table;
     private int size;
-    public MyHashmap(){
+    public MyHashTable(){
         table=new Node[64];
     }//default constructor to make table of capacity of 64
-    public MyHashmap(int capacity){
+    public MyHashTable(int capacity){
         table=new Node[capacity];
     }//to make table of capacity provided by user(>0)
     private int hash(Object key){

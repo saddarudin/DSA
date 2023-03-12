@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 
 public class Solutions {
-    public University search(MyHashmap map,String key){
+    public University search(MyHashTable map,String key){
         return map.get(key);
-    }
+    }//searching from hashtable
     public University[] topX(MyLinkedStack stack,int X){
         University[] uet=new University[X];
         String[] keys=new String[X];
-        MyHashmap map=Main.getMap();
+        MyHashTable map=Main.getMap();
         for(int i=0;i<X;i++){
             keys[i]=stack.pop();
             uet[i]=map.get(keys[i]);
@@ -20,7 +20,7 @@ public class Solutions {
     }
     public University[] bottomX(MyLinkedStack stack,int X){
         University[] uet=new University[X];
-        MyHashmap map=Main.getMap();
+        MyHashTable map=Main.getMap();
         String[] keys=new String[map.size()];
         int count=0;
         for(int i=0;i< map.size();i++) keys[i]=stack.pop();
@@ -191,4 +191,5 @@ public class Solutions {
             }
         }
     }
+
 }

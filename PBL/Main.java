@@ -38,12 +38,12 @@ public class Main {
     }
 
     //Hashmap: to store data in key value pair
-    private static final MyHashmap map=new MyHashmap(100);
+    private static final MyHashTable map=new MyHashTable(100);
     //to insert data into hashmap and also return map
     public void insertIntoMap(){
-        for(int i=0;i<100;i++)map.put(keys[i],universities[i]);
+        for(int i=0;i< universities.length;i++)map.put(keys[i],universities[i]);
     }
-    public static MyHashmap getMap(){return map;}
+    public static MyHashTable getMap(){return map;}
     //stack1 for storing data order by noOfPublication
     private static final MyLinkedStack stack1=new MyLinkedStack();
     //stack2 for storing data order by PakRanking
