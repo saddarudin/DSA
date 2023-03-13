@@ -1,16 +1,111 @@
 package PBL;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
 public class Solutions {
+
+    //University array has been created to store universities' objects
+    University[] universities=new University[100];//values
+    //String array to store keys of every object of university
+    String[] keys=new String[100];
+
+    //Constructor to fetch data from csv file to University array
+    //and txt file to keys array
+
+    //Hashmap: to store data in key value pair
+    private static final MyHashTable map=new MyHashTable(100);
+    //stack1 for storing data order by noOfPublication
+    private static final MyLinkedStack stack1=new MyLinkedStack();
+    //stack2 for storing data order by PakRanking
+    private static final MyLinkedStack stack2=new MyLinkedStack();
+    private static final MyLinkedStack SindhUETs=new MyLinkedStack();
+    private static final MyLinkedStack PunjabUETs=new MyLinkedStack();
+    private static final MyLinkedStack BalochistanUETs=new MyLinkedStack();
+    private static final MyLinkedStack KPK_UETs=new MyLinkedStack();
+    private static final MyLinkedStack AJK_UETs=new MyLinkedStack();
+    private static final MyLinkedStack GilgitBiltistanUETs=new MyLinkedStack();
+    public void readFile(){
+        //Reading from csv file and txt file
+        File file=new File("PBL/Top 100 Unis of Pakistan.csv");
+        File file1=new File("PBL/Keys.txt");
+        try {
+            int i=0;
+            Scanner scan = new Scanner(file);
+            Scanner scanner=new Scanner(file1);
+            while (scan.hasNextLine()){
+                String[] parts= scan.nextLine().split(",");
+                universities[i]=new University(parts[0],Integer.parseInt(parts[1]),
+                        Integer.parseInt(parts[2]),Integer.parseInt(parts[3]),
+                        parts[4],parts[5],Integer.parseInt(parts[6]));
+                keys[i]=scanner.nextLine();
+                i++;
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //to insert data into hashmap and also return map
+    public void insertIntoMap(){
+        for(int i=0;i< universities.length;i++)map.put(keys[i],universities[i]);
+    }
+    public void insertIntoStack(String orderBy){
+        for(int i=0;i< keys.length;i++){
+            if(orderBy.equals("noOfPublications")) stack1.push(keys[i],universities[i],orderBy);
+            else if(orderBy.equals("PakRanking")){
+                stack2.push(keys[i],universities[i],orderBy);
+                switch (universities[i].getProvince()){
+                    case "Sindh"->SindhUETs.push(keys[i],universities[i],orderBy);
+                    case "Punjab"->PunjabUETs.push(keys[i],universities[i],orderBy);
+                    case "Balochistan"->BalochistanUETs.push(keys[i],universities[i],orderBy);
+                    case "KPK"->KPK_UETs.push(keys[i],universities[i],orderBy);
+                    case "AJK"->AJK_UETs.push(keys[i],universities[i],orderBy);
+                    case "Gilgit Biltistan"->GilgitBiltistanUETs.push(keys[i],universities[i],orderBy);
+                }
+            }
+        }
+
+    }
+    public static MyHashTable getMap(){return map;}
+
+    public static MyLinkedStack getStack1(){return stack1;}
+    public static MyLinkedStack getStack2(){return stack2;}
+
+    public static MyLinkedStack getSindhUETs() {
+        return SindhUETs;
+    }
+
+    public static MyLinkedStack getPunjabUETs() {
+        return PunjabUETs;
+    }
+
+    public static MyLinkedStack getGilgitBiltistanUETs() {
+        return GilgitBiltistanUETs;
+    }
+
+    public static MyLinkedStack getKPK_UETs() {
+        return KPK_UETs;
+    }
+
+    public static MyLinkedStack getBalochistanUETs() {
+        return BalochistanUETs;
+    }
+
+    public static MyLinkedStack getAJK_UETs() {
+        return AJK_UETs;
+    }
+
+    //Problem1
     public University search(MyHashTable map,String key){
         return map.get(key);
     }//searching from hashtable
     public University[] topX(MyLinkedStack stack,int X){
         University[] uet=new University[X];
         String[] keys=new String[X];
-        MyHashTable map=Main.getMap();
+        MyHashTable map=getMap();
         for(int i=0;i<X;i++){
             keys[i]=stack.pop();
             uet[i]=map.get(keys[i]);
@@ -20,7 +115,7 @@ public class Solutions {
     }
     public University[] bottomX(MyLinkedStack stack,int X){
         University[] uet=new University[X];
-        MyHashTable map=Main.getMap();
+        MyHashTable map=getMap();
         String[] keys=new String[map.size()];
         int count=0;
         for(int i=0;i< map.size();i++) keys[i]=stack.pop();
@@ -44,29 +139,29 @@ public class Solutions {
         P=percentile
          */
         int position=(percentile*stack.size())/100;
-        return Main.getMap().get(stack.get(position));
+        return getMap().get(stack.get(position));
     }
     public String performance(){
         String x="",y= "";
         int punjabPub=0,sindhPub=0,balPub=0,kpkPub=0,ajkPub=0,gilgitPub=0;
-        MyLinkedStack stack1=Main.getSindhUETs();
-        MyLinkedStack stack2=Main.getPunjabUETs();
-        MyLinkedStack stack3=Main.getBalochistanUETs();
-        MyLinkedStack stack4=Main.getKPK_UETs();
-        MyLinkedStack stack5=Main.getAJK_UETs();
-        MyLinkedStack stack6=Main.getGilgitBiltistanUETs();
+        MyLinkedStack stack1=getSindhUETs();
+        MyLinkedStack stack2=getPunjabUETs();
+        MyLinkedStack stack3=getBalochistanUETs();
+        MyLinkedStack stack4=getKPK_UETs();
+        MyLinkedStack stack5=getAJK_UETs();
+        MyLinkedStack stack6=getGilgitBiltistanUETs();
         for(int i=1;i<=stack1.size();i++)
-            sindhPub+=Main.getMap().get(stack1.get(i)).getNoOfPublications();
+            sindhPub+=getMap().get(stack1.get(i)).getNoOfPublications();
         for(int i=1;i<=stack2.size();i++)
-            punjabPub+=Main.getMap().get(stack2.get(i)).getNoOfPublications();
+            punjabPub+=getMap().get(stack2.get(i)).getNoOfPublications();
         for(int i=1;i<=stack3.size();i++)
-            balPub+=Main.getMap().get(stack3.get(i)).getNoOfPublications();
+            balPub+=getMap().get(stack3.get(i)).getNoOfPublications();
         for(int i=1;i<=stack4.size();i++)
-            kpkPub+=Main.getMap().get(stack4.get(i)).getNoOfPublications();
+            kpkPub+=getMap().get(stack4.get(i)).getNoOfPublications();
         for(int i=1;i<=stack5.size();i++)
-            ajkPub+=Main.getMap().get(stack5.get(i)).getNoOfPublications();
+            ajkPub+=getMap().get(stack5.get(i)).getNoOfPublications();
         for(int i=1;i<=stack6.size();i++)
-            gilgitPub+=Main.getMap().get(stack6.get(i)).getNoOfPublications();
+            gilgitPub+=getMap().get(stack6.get(i)).getNoOfPublications();
         double avg1=(double) sindhPub/stack1.size();
         double avg2=(double) punjabPub/stack1.size();
         double avg3=(double) balPub/stack1.size();
@@ -104,7 +199,10 @@ public class Solutions {
 
     public static void main(String[] args) {
         Solutions s=new Solutions();
-        new Main();
+        s.readFile();
+        s.insertIntoMap();
+        s.insertIntoStack("noOfPublications");
+        s.insertIntoStack("PakRanking");
         while (true) {
             System.out.println("\n\n\n");
             System.out.println("1.Search any university by providing key");
@@ -120,7 +218,7 @@ public class Solutions {
                     System.out.println("Enter four word key: ");
                     String str=scan.next();
                     System.out.println("wRank\t   aRank\t   pRank\tPub\t\t\t\t\t\t\tLoc\t\t\t\t\t\t\tProvince\t\t\t\t\t\t\t\t\t\tName");
-                    System.out.println(Main.getMap().get(str));
+                    System.out.println(getMap().get(str));
                 }
                 case "2" -> {
                     System.out.println("Enter number of universities: ");
@@ -132,10 +230,10 @@ public class Solutions {
                     String a = scan.next();
                     System.out.println("wRank\t   aRank\t   pRank\tPub\t\t\t\t\t\t\tLoc\t\t\t\t\t\t\tProvince\t\t\t\t\t\t\t\t\t\tName");
                     if (a.equals("1"))
-                        for (University u : s.topX(Main.getStack1(), b))
+                        for (University u : s.topX(getStack1(), b))
                             System.out.println(u);
                     else if (a.equals("2"))
-                        for (University u : s.topX(Main.getStack2(), b))
+                        for (University u : s.topX(getStack2(), b))
                             System.out.println(u);
                 }
                 case "3" -> {
@@ -148,10 +246,10 @@ public class Solutions {
                     String a = scan.next();
                     System.out.println("wRank\t   aRank\t   pRank\tPub\t\t\t\t\t\t\tLoc\t\t\t\t\t\t\tProvince\t\t\t\t\t\t\t\t\t\tName");
                     if (a.equals("1"))
-                        for (University u : s.bottomX(Main.getStack1(), b))
+                        for (University u : s.bottomX(getStack1(), b))
                             System.out.println(u);
                     else if (a.equals("2"))
-                        for (University u : s.bottomX(Main.getStack2(), b))
+                        for (University u : s.bottomX(getStack2(), b))
                             System.out.println(u);
                 }
                 case "4" -> {
@@ -164,9 +262,9 @@ public class Solutions {
                     String a = scan.next();
                     System.out.println("wRank\t   aRank\t   pRank\tPub\t\t\t\t\t\t\tLoc\t\t\t\t\t\t\tProvince\t\t\t\t\t\t\t\t\t\t\tName");
                     if (a.equals("1"))
-                        System.out.println(s.percentile(b, Main.getStack1()));
+                        System.out.println(s.percentile(b, getStack1()));
                     else if (a.equals("2"))
-                        System.out.println(s.percentile(b, Main.getStack2()));
+                        System.out.println(s.percentile(b, getStack2()));
                 }
                 case "5" -> {
                     System.out.println("1.Top Ranked Universities of Sindh");
@@ -178,12 +276,12 @@ public class Solutions {
                     String c = scan.next();
                     System.out.println("wRank\t   aRank\t   pRank\tPub\t\t\t\t\t\t\tLoc\t\t\t\t\t\t\tProvince\t\t\t\t\t\t\t\t\t\tName");
                     switch (c) {
-                        case "1" -> Main.getSindhUETs().traverse();
-                        case "2" -> Main.getPunjabUETs().traverse();
-                        case "3" -> Main.getBalochistanUETs().traverse();
-                        case "4" -> Main.getKPK_UETs().traverse();
-                        case "5" -> Main.getAJK_UETs().traverse();
-                        case "6" -> Main.getGilgitBiltistanUETs().traverse();
+                        case "1" -> getSindhUETs().traverse();
+                        case "2" -> getPunjabUETs().traverse();
+                        case "3" -> getBalochistanUETs().traverse();
+                        case "4" -> getKPK_UETs().traverse();
+                        case "5" -> getAJK_UETs().traverse();
+                        case "6" -> getGilgitBiltistanUETs().traverse();
                     }
                 }
                 case "6" -> System.out.println(s.performance());

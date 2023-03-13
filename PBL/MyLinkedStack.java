@@ -1,5 +1,7 @@
 package PBL;
 
+import PBL2.Solution;
+
 import java.util.EmptyStackException;
 
 class MyLinkedStack {
@@ -38,27 +40,27 @@ class MyLinkedStack {
     public void push(String key,University university,String orderBy){
         Node temp=top;
         if(orderBy.equals("noOfPublications")){
-                if(isEmpty()||Main.getMap().get(top.data).getNoOfPublications()< university.getNoOfPublications()){
+                if(isEmpty()|| Solutions.getMap().get(top.data).getNoOfPublications()< university.getNoOfPublications()){
                     top=new Node(key,top);
                     size++;
                     return;
                 }
 
                 while (temp.next!=null){
-                    if(Main.getMap().get(temp.next.data).getNoOfPublications()< university.getNoOfPublications())break;
+                    if(Solutions.getMap().get(temp.next.data).getNoOfPublications()< university.getNoOfPublications())break;
                     temp=temp.next;
                 }
 
         }
         else if(orderBy.equals("PakRanking")){
-            if(isEmpty()||Main.getMap().get(top.data).getPakRanking()> university.getPakRanking()){
+            if(isEmpty()||Solutions.getMap().get(top.data).getPakRanking()> university.getPakRanking()){
                 top=new Node(key,top);
                 size++;
                 return;
             }
 
             while (temp.next!=null){
-                if(Main.getMap().get(temp.next.data).getPakRanking()> university.getPakRanking())break;
+                if(Solutions.getMap().get(temp.next.data).getPakRanking()> university.getPakRanking())break;
                 temp=temp.next;
             }
 
@@ -77,7 +79,7 @@ class MyLinkedStack {
         return temp.data;
     }
     public void traverse(){
-        for(Node n=top;n!=null;n=n.next) System.out.println(Main.getMap().get(n.data));
+        for(Node n=top;n!=null;n=n.next) System.out.println(Solutions.getMap().get(n.data));
     }
 
 }
